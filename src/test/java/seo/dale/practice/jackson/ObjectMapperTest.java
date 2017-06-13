@@ -1,28 +1,30 @@
 package seo.dale.practice.jackson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.junit.Test;
-import seo.dale.practice.jackson.json.Bean;
+import seo.dale.practice.jackson.domain.Bean;
+import seo.dale.practice.jackson.domain.User;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
-/**
- * @author 서대영/Store기술개발팀/SKP
- */
 public class ObjectMapperTest {
-
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void testConvertValue() throws Exception {
 		Bean bean = new Bean(1L, "Dale Seo");
 		bean.setList(Arrays.asList(2, 4, 6, 8));
 
+		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> map = mapper.convertValue(bean, Map.class);
 		System.out.println(map);
 
@@ -33,6 +35,7 @@ public class ObjectMapperTest {
 
 	@Test
 	public void testConvertValueWithNonEmptyIncluded() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
 		Bean bean = new Bean(0L, "Dale Seo");
@@ -46,6 +49,28 @@ public class ObjectMapperTest {
 		assertEquals("Dale Seo", map.get("name"));
 		// A null list is not included by @JsonInclude(JsonInclude.Include.NON_EMPTY)
 		assertNull(map.get("list"));
+	}
+
+	@Test(expected = UnrecognizedPropertyException.class)
+	public void throwUnrecognizedPropertyException() throws IOException {
+		// Unrecognized field "no"
+		String userAsString = "{\"no\":1,\"createdDate\":1497351968054,\"email\":\"user@test.com\",\"roles\":null,\"username\":\"user\"}";
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.readValue(userAsString, User.class);
+		fail();
+	}
+
+	@Test
+	public void throwIgnoreUnrecognizedFields() throws IOException {
+		// Unrecognized field "no"
+		String userAsString = "{\"no\":1,\"createdDate\":1497351968054,\"email\":\"user@test.com\",\"roles\":null,\"username\":\"user\"}";
+
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		User user = mapper.readValue(userAsString, User.class);
+		System.out.println("#user: " + user);
+		assertThat(user).isNotNull();
 	}
 
 }

@@ -1,8 +1,5 @@
-package seo.dale.practice.jackson;
+package seo.dale.practice.jackson.xml;
 
-/**
- * Created by Dale on 2016-01-05.
- */
 public class Simple {
     public int x = 1;
     public int y = 2;

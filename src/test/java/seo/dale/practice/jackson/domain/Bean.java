@@ -1,13 +1,10 @@
-package seo.dale.practice.jackson.json;
+package seo.dale.practice.jackson.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author 서대영/Store기술개발팀/SKP
- */
 public class Bean {
 
 	private long no;

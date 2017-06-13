@@ -15,5 +15,6 @@ dependencies {
             'org.codehaus.woodstox:woodstox-core-asl:4.4.1',
             'com.google.guava:guava:19.0',
             'org.projectlombok:lombok:1.16.10'
-	testCompile 'junit:junit:4.12'
+	testCompile 'junit:junit:4.12',
+				'org.assertj:assertj-core:2.6.0'
 }

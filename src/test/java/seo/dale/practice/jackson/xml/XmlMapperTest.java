@@ -1,4 +1,4 @@
-package seo.dale.practice.jackson;
+package seo.dale.practice.jackson.xml;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,9 +9,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-/**
- * Created by Dale on 2016-01-05.
- */
 public class XmlMapperTest {
 
     ObjectMapper xmlMapper;
