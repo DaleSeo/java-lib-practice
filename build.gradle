@@ -16,5 +16,6 @@ dependencies {
             'com.google.guava:guava:19.0',
             'org.projectlombok:lombok:1.16.10'
 	testCompile 'junit:junit:4.12',
-				'org.assertj:assertj-core:2.6.0'
+				'org.assertj:assertj-core:2.6.0',
+				'org.skyscreamer:jsonassert:1.5.0'
 }
