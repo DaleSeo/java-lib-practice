@@ -30,7 +30,7 @@ public class JsonNodeTest {
     }
 
     @Test
-    public void name() throws IOException {
+    public void nameSemanticallyEquals() throws IOException {
         String lineString = "{\"id\":1,\"createdDate\":1497351968054,\"email\":\"user@test.com\",\"roles\":null,\"username\":\"user\"}";
         JsonNode node1 = mapper.readTree(lineString);
         System.out.println("#node1: " + node1);

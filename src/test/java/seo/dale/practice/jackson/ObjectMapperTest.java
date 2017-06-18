@@ -1,9 +1,12 @@
 package seo.dale.practice.jackson;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Test;
 import seo.dale.practice.jackson.domain.Bean;
 import seo.dale.practice.jackson.domain.User;
@@ -71,6 +74,33 @@ public class ObjectMapperTest {
 		User user = mapper.readValue(userAsString, User.class);
 		System.out.println("#user: " + user);
 		assertThat(user).isNotNull();
+	}
+
+	@Test
+	public void testWriterWithDefaultPrettyPrinter() throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode objectNode = mapper.createObjectNode();
+		objectNode.put("no", 1);
+		objectNode.put("createdDate", 1497351968054L);
+		objectNode.put("email", "user@test.com");
+		objectNode.putNull("roles");
+		objectNode.put("username", "user");
+
+		String jsonAsString = mapper.writeValueAsString(objectNode);
+		System.out.println("#jsonAsString: " + jsonAsString);
+		String expectedString = "{\"no\":1,\"createdDate\":1497351968054,\"email\":\"user@test.com\",\"roles\":null,\"username\":\"user\"}";
+		assertThat(jsonAsString).isEqualTo(expectedString);
+
+		String jsonAsPrettyString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectNode);
+		String expectedPrettyString = "{\n" +
+				"  \"no\" : 1,\n" +
+				"  \"createdDate\" : 1497351968054,\n" +
+				"  \"email\" : \"user@test.com\",\n" +
+				"  \"roles\" : null,\n" +
+				"  \"username\" : \"user\"\n" +
+				"}";
+		System.out.println("#jsonAsPrettyString: " + jsonAsPrettyString);
+		assertThat(jsonAsPrettyString).isEqualTo(expectedPrettyString);
 	}
 
 }
